@@ -1,0 +1,38 @@
+Catálogo de Productos — versión NATIVA (Kotlin + Jetpack Compose)
+================================================================
+
+Qué incluye
+-----------
+✓ App Android nativa (Kotlin + Jetpack Compose)
+✓ Mismo applicationId y debug.keystore → actualiza el APK Capacitor sin desinstalar
+✓ Persistencia local (DataStore)
+✓ Productos: crear, editar, borrar, ocultar, destacar, disponible/agotado
+✓ Fotos: cámara + galería, hasta 5, comprimidas
+✓ Ofertas, unidad, stock
+✓ Búsqueda y filtro por categoría
+✓ Categorías y multi-tienda
+✓ Firebase: publicar catálogo, sync pedidos, reglas
+✓ Pantalla de pedidos
+✓ Compartir producto y WhatsApp de tienda
+✓ QR (WhatsApp / slug)
+✓ Importar datos.json de backup de la versión web (sin fotos)
+✓ GitHub Actions → APK
+
+Cómo importar desde la web
+--------------------------
+1. En la app web: crea una copia de seguridad (backup).
+2. Abre el ZIP y extrae datos.json (o usa el JSON exportado).
+3. En la app nativa: Ajustes → Importar datos.json.
+4. Se importan tiendas, productos, categorías y pedidos (sin fotos).
+
+Cómo compilar
+-------------
+1. Sube TODO a GitHub (incluido .github y debug.keystore).
+2. Actions → "Compilar APK nativo" → Run workflow.
+3. Descarga e instala el APK.
+
+Pendiente
+---------
+○ Importar también fotos del ZIP de backup
+○ Vista previa del catálogo público embebida
+○ Opciones de producto (tallas, colores)
