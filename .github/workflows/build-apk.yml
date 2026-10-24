@@ -1,0 +1,48 @@
+name: Compilar APK nativo
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Firma fija (para poder actualizar sin desinstalar)
+        run: |
+          mkdir -p ~/.android
+          if [ -f debug.keystore ]; then
+            cp debug.keystore ~/.android/debug.keystore
+          fi
+
+      - name: Número de versión
+        run: |
+          # Actualiza versionCode y versionName con el número de ejecución
+          sed -i "s/versionCode = 1/versionCode = ${{ github.run_number }}/" app/build.gradle.kts
+          sed -i "s/versionName = \"1.0\"/versionName = \"1.${{ github.run_number }}\"/" app/build.gradle.kts
+
+      - name: Compilar APK debug
+        run: |
+          chmod +x gradlew || true
+          # Si no hay wrapper todavía, lo generamos
+          if [ ! -f gradlew ]; then
+            gradle wrapper --gradle-version 8.7
+          fi
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Guardar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Catalogo-de-Productos-nativo-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
